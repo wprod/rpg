@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { useFrame, useThree } from "@react-three/fiber";
+import { ObjectMap, useFrame, useThree } from "@react-three/fiber";
 import useCapsuleCollider from "../Hooks/useCapsuleCollider";
 import useRay from "../Hooks/useRay";
 import useInputEventManager from "../Hooks/useInputEventManager";
@@ -11,8 +11,11 @@ import useThirdPersonCameraControls, {
 import useThirdPersonAnimations from "../Hooks/useThirdPersonAnimations";
 import useCharacterState from "../Hooks/useCharacterState";
 import { inputMovementRotation } from "../Hooks/useInputMovementRotation";
-import { Group, Object3D } from "three";
+import { Group, Mesh, Object3D } from "three";
 import { Triplet } from "@react-three/cannon";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { Geometry } from "three/examples/jsm/deprecated/Geometry";
+import { GLTFResult } from "../App";
 
 export interface ICharacterProps {
   scale?: number;
@@ -36,7 +39,7 @@ export type TAnimationPaths = Record<EAnimationNames, string>;
 
 interface IThirdPersonCharacterControls {
   cameraOptions: ICameraOptions;
-  characterObj: Object3D;
+  characterObj: GLTFResult;
   characterProps: ICharacterProps;
   animationPaths: TAnimationPaths;
   onLoad: any;
@@ -73,16 +76,19 @@ const ThirdPersonCharacterControls = ({
     cameraOptions,
     cameraContainer,
   });
+
   const { actions, mixer } = useThirdPersonAnimations(
-    characterObj,
+    characterObj.nodes.Root,
     animationPaths,
     onLoad
   );
+
   const { animation, isMoving } = useCharacterState(inputs, position, mixer);
 
   // subscribe to collider velocity/position changes
   const charVelocity = characterProps.velocity ?? 4;
   const velocity = useRef([0, 0, 0]);
+
   useEffect(() => {
     collider.velocity.subscribe((v) => {
       velocity.current = v;
@@ -106,7 +112,7 @@ const ThirdPersonCharacterControls = ({
 
       // first rotate the model group
       modelRef.current.rotateY(model.direction * -0.05);
-      newRotation = characterObj.rotation.clone();
+      newRotation = characterObj.scene.rotation.clone();
       newRotation.y = model.rotation;
 
       const mtx = new THREE.Matrix4().makeRotationFromQuaternion(
@@ -130,15 +136,13 @@ const ThirdPersonCharacterControls = ({
     // after applying x/z velocity, apply y velocity if user has jumped while grounded
     const isGrounded = Math.abs(Number(velocity.current[1].toFixed(2))) === 0;
 
-    console.log(isGrounded);
-
     if (animation === "jump" && isGrounded) {
       collider.velocity.set(velocity.current[0], 8.5, velocity.current[2]);
     }
 
     // rotate character model inside model group
     const newQuat = new THREE.Quaternion().setFromEuler(newRotation);
-    characterObj.quaternion.slerp(newQuat, 0.1);
+    characterObj.scene.quaternion.slerp(newQuat, 0.1);
 
     // quaternion is set on model group so we copy it to collider
     collider.quaternion.copy(modelRef?.current?.quaternion!);
@@ -159,11 +163,23 @@ const ThirdPersonCharacterControls = ({
   }, [animation, actions]);
 
   return (
-    <group ref={modelRef} rotation={[0, 0, 0]} {...characterProps}>
-      <Suspense>
-        <primitive object={characterObj} dispose={null} />
-      </Suspense>
-    </group>
+    <Suspense>
+      <group dispose={null} ref={modelRef}>
+        <group name="Armature" rotation={[-1.54, 0, 0]} scale={1}>
+          <primitive object={characterObj.nodes.Root} />
+          <skinnedMesh
+            name="SM_Chr_ScifiWorlds_SpaceSuit_Female_01"
+            geometry={
+              characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.geometry
+            }
+            material={characterObj.materials["Scifi_1a9.005"]}
+            skeleton={
+              characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.skeleton
+            }
+          />
+        </group>
+      </group>
+    </Suspense>
   );
 };
 

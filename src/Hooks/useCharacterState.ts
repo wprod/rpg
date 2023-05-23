@@ -24,6 +24,7 @@ const getAnimationFromUserInputs = (inputs: IMovementDirection) => {
   if (!left && right) {
     return isMouseLooking ? "strafeRight" : "turnRight";
   }
+
   return "idle";
 };
 

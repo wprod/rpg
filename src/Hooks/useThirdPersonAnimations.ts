@@ -153,8 +153,7 @@ function useThirdPersonAnimations(
   }, [clips]);
 
   useFrame((_, delta) => {
-    // @ts-ignore
-    mixer.update(delta);
+    mixer && mixer.update(delta);
   });
 
   return api;
