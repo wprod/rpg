@@ -168,8 +168,8 @@ const ThirdPersonCharacterControls = ({
         <group
           name="Armature"
           position={[0, 0, 0.02]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          scale={1}
+          rotation={[0, 0, 0]}
+          scale={0.01}
         >
           <primitive object={characterObj.nodes.Root} />
           <skinnedMesh

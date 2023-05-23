@@ -1,6 +1,6 @@
 {
-  "name": "mini-golf",
-  "version": "0.1.0",
+  "name": "rpgf",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -8,19 +8,19 @@
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
+    "@types/react": "^18.2.6",
     "@types/three": "0.146.0",
     "@types/react-dom": "^18.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0",
-    "@react-three/drei": "9.34.4",
-    "@react-three/fiber": "8.8.10",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "@react-three/drei": "9.68.6",
+    "@react-three/fiber": "8.13.0",
     "@react-three/cannon": "6.5.2",
-    "three": "^0.146.0",
-    "prettier": "^2.7.1"
+    "three": "^0.152.2",
+    "prettier": "^2.8.8"
   },
   "scripts": {
     "start": "react-scripts start",
