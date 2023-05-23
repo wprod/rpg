@@ -165,14 +165,19 @@ const ThirdPersonCharacterControls = ({
   return (
     <Suspense>
       <group dispose={null} ref={modelRef}>
-        <group name="Armature" rotation={[-1.54, 0, 0]} scale={1}>
+        <group
+          name="Armature"
+          position={[0, 0, 0.02]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          scale={1}
+        >
           <primitive object={characterObj.nodes.Root} />
           <skinnedMesh
             name="SM_Chr_ScifiWorlds_SpaceSuit_Female_01"
             geometry={
               characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.geometry
             }
-            material={characterObj.materials["Scifi_1a9.005"]}
+            material={characterObj.materials["Scifi_1a9.006"]}
             skeleton={
               characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.skeleton
             }
