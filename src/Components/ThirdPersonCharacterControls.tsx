@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { ObjectMap, useFrame, useThree } from "@react-three/fiber";
+import { Group } from "three";
+import { useFrame, useThree } from "@react-three/fiber";
 import useCapsuleCollider from "../Hooks/useCapsuleCollider";
 import useRay from "../Hooks/useRay";
 import useInputEventManager from "../Hooks/useInputEventManager";
@@ -11,10 +12,7 @@ import useThirdPersonCameraControls, {
 import useThirdPersonAnimations from "../Hooks/useThirdPersonAnimations";
 import useCharacterState from "../Hooks/useCharacterState";
 import { inputMovementRotation } from "../Hooks/useInputMovementRotation";
-import { Group, Mesh, Object3D } from "three";
 import { Triplet } from "@react-three/cannon";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { Geometry } from "three/examples/jsm/deprecated/Geometry";
 import { GLTFResult } from "../App";
 
 export interface ICharacterProps {
@@ -33,6 +31,8 @@ export enum EAnimationNames {
   BACKPEDAL = "backpedal",
   TURN_LEFT = "turnLeft",
   TURN_RIGHT = "turnRight",
+  STRAFE_RIGHT = "strafeRight",
+  STRAFE_LEFT = "strafeLeft",
 }
 
 export type TAnimationPaths = Record<EAnimationNames, string>;
@@ -167,7 +167,7 @@ const ThirdPersonCharacterControls = ({
       <group dispose={null} ref={modelRef}>
         <group
           name="Armature"
-          position={[0, 0, 0.02]}
+          position={[0, 0, 0]}
           rotation={[0, 0, 0]}
           scale={0.01}
         >
@@ -177,7 +177,7 @@ const ThirdPersonCharacterControls = ({
             geometry={
               characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.geometry
             }
-            material={characterObj.materials["Scifi_1a9.006"]}
+            material={characterObj.materials["Scifi_1a9.003"]}
             skeleton={
               characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.skeleton
             }

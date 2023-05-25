@@ -1,6 +1,6 @@
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimationMixer, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
 import {
@@ -112,6 +112,7 @@ function useThirdPersonAnimations(
             );
 
             const clampers = ["jump", "landing"];
+
             // @ts-ignore
             if (clampers.includes(clip.name)) {
               // @ts-ignore
@@ -119,6 +120,7 @@ function useThirdPersonAnimations(
               // @ts-ignore
               lazyActions.current[clip.name].clampWhenFinished = true;
             }
+
             // @ts-ignore
             return lazyActions.current[clip.name];
           }

@@ -1,5 +1,5 @@
 import { Triplet, useRaycastClosest } from "@react-three/cannon";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ICharacterState, IMovementDirection } from "./hooks.types";
 import { AnimationMixer } from "three";
 
@@ -53,7 +53,8 @@ export default function useCharacterState(
   }, [jump]);
 
   const rayFrom: Triplet = [position[0], position[1], position[2]];
-  const rayTo: Triplet = [position[0], position[1] - 0.2, position[2]];
+  const rayTo: Triplet = [position[0], position[1] - 0.1, position[2]]; // SHOULD BE RELATED TO CHARACTER SIZE
+
   useRaycastClosest(
     {
       from: rayFrom,
@@ -67,7 +68,7 @@ export default function useCharacterState(
     },
     [position]
   );
-
+  console.log(landed);
   useEffect(() => {
     if (inAir && landed) {
       setCharacterState((prevState) => ({
@@ -90,6 +91,7 @@ export default function useCharacterState(
     if (isJumping || inAir) {
       return;
     }
+
     const newState = {
       animation: getAnimationFromUserInputs(inputs),
       isJumping: false,
@@ -99,6 +101,7 @@ export default function useCharacterState(
       newState.animation = "jump";
       newState.isJumping = true;
     }
+
     if (jumpPressed || inAir) {
       newState.isJumping = false;
     }
@@ -107,6 +110,7 @@ export default function useCharacterState(
     if (isLanding && newState.animation === "idle") {
       return;
     }
+
     setCharacterState((prevState) => ({
       ...prevState,
       isLanding: false,
@@ -123,10 +127,12 @@ export default function useCharacterState(
         animation: "inAir",
       }));
     };
+
     if (characterState.isJumping) {
       // play 200ms of jump animation then transition to inAir
       setTimeout(checker, 200);
     }
+
     return () => {
       // @ts-ignore
       clearTimeout(checker);
@@ -139,13 +145,13 @@ export default function useCharacterState(
     }
 
     const onMixerFinish = () => {
-      setCharacterState((prevState) => ({
+      /*setCharacterState((prevState) => ({
         ...prevState,
         isJumping: false,
         inAir: false,
         isLanding: false,
         animation: "idle",
-      }));
+      }));*/
     };
 
     mixer.addEventListener("finished", onMixerFinish);
