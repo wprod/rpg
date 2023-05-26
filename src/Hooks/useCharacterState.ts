@@ -53,7 +53,7 @@ export default function useCharacterState(
   }, [jump]);
 
   const rayFrom: Triplet = [position[0], position[1], position[2]];
-  const rayTo: Triplet = [position[0], position[1] - 0.1, position[2]]; // SHOULD BE RELATED TO CHARACTER SIZE
+  const rayTo: Triplet = [position[0], position[1] - 0.25, position[2]]; // SHOULD BE RELATED TO CHARACTER SIZE
 
   useRaycastClosest(
     {
@@ -68,7 +68,7 @@ export default function useCharacterState(
     },
     [position]
   );
-  console.log(landed);
+
   useEffect(() => {
     if (inAir && landed) {
       setCharacterState((prevState) => ({

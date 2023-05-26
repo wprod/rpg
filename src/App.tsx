@@ -103,10 +103,11 @@ export function ThirdPersonCharacter() {
           position: [0, 11, 11],
         }}
       >
-        <Physics gravity={[0, -15, 0]}>
+        <Physics gravity={[0, -35, 0]}>
           <Debug color="black" scale={1.1}>
             <Wall args={[25, 3, 0.2]} position={[0, 1.4, -12.6]} />
             <Wall args={[25, 3, 0.2]} position={[0, 1.4, 12.6]} />
+            <Wall args={[2, 2, 2]} position={[0, 0, 0]} />
             <Wall
               args={[25, 3, 0.2]}
               rotation={[0, -Math.PI / 2, 0]}

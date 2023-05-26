@@ -122,6 +122,7 @@ const ThirdPersonCharacterControls = ({
 
       // then apply velocity to collider influenced by model groups rotation
       const baseVelocity = inputs.down ? charVelocity / 2 : charVelocity;
+
       if (inputs.run) {
         zVelocity = 2 * movement.z * baseVelocity;
         xVelocity = 2 * movement.x * baseVelocity;
@@ -129,6 +130,10 @@ const ThirdPersonCharacterControls = ({
         xVelocity = movement.x * baseVelocity;
         zVelocity = movement.z * baseVelocity;
       }
+
+      // rotate character model inside model group
+      const newQuat = new THREE.Quaternion().setFromEuler(newRotation);
+      characterObj.nodes.Root.quaternion.slerp(newQuat, 0.1);
     }
 
     collider.velocity.set(xVelocity, velocity.current[1], zVelocity);
@@ -139,10 +144,6 @@ const ThirdPersonCharacterControls = ({
     if (animation === "jump" && isGrounded) {
       collider.velocity.set(velocity.current[0], 8.5, velocity.current[2]);
     }
-
-    // rotate character model inside model group
-    const newQuat = new THREE.Quaternion().setFromEuler(newRotation);
-    characterObj.scene.quaternion.slerp(newQuat, 0.1);
 
     // quaternion is set on model group so we copy it to collider
     collider.quaternion.copy(modelRef?.current?.quaternion!);
