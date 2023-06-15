@@ -1,10 +1,11 @@
-import { useGLTF } from "@react-three/drei";
 import React from "react";
 import ThirdPersonCharacterControls from "./Components/ThirdPersonCharacterControls";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import { Debug, Physics, useBox } from "@react-three/cannon";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
+import { LandingPad } from "./Components/LandingPad";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 
 const PATH = "/models";
 
@@ -25,7 +26,7 @@ const animationPaths = {
 function Floor() {
   const [ref] = useBox(() => ({
     type: "Static",
-    args: [25, 0.2, 25],
+    args: [75, 0.2, 75],
     mass: 0,
     material: {
       friction: 0,
@@ -83,8 +84,8 @@ export type GLTFResult = GLTF & {
   };
 };
 
-export function ThirdPersonCharacter() {
-  const characterObj = useGLTF(`/models/model.glb`) as GLTFResult;
+export function App() {
+  const fbx = useLoader(FBXLoader, `/models/untitled-text.fbx`);
 
   const characterProps = {
     scale: 1,
@@ -105,8 +106,9 @@ export function ThirdPersonCharacter() {
       >
         <Physics gravity={[0, -35, 0]}>
           <Debug color="black" scale={1.1}>
-            <Wall args={[25, 3, 0.2]} position={[0, 1.4, -12.6]} />
-            <Wall args={[25, 3, 0.2]} position={[0, 1.4, 12.6]} />
+            <LandingPad />
+            <Wall args={[50, 3, 0.2]} position={[0, 1.4, -25]} />
+            <Wall args={[50, 3, 0.2]} position={[0, 1.4, 25]} />
             <Wall args={[2, 2, 2]} position={[0, 0, 0]} />
             <Wall
               args={[25, 3, 0.2]}
@@ -129,7 +131,7 @@ export function ThirdPersonCharacter() {
                 maxDistance: 7,
                 collisionFilterMask: 2,
               }}
-              characterObj={characterObj}
+              characterObj={fbx}
               characterProps={characterProps}
               animationPaths={animationPaths}
               onLoad={console.log}

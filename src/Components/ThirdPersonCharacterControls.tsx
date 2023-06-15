@@ -13,7 +13,6 @@ import useThirdPersonAnimations from "../Hooks/useThirdPersonAnimations";
 import useCharacterState from "../Hooks/useCharacterState";
 import { inputMovementRotation } from "../Hooks/useInputMovementRotation";
 import { Triplet } from "@react-three/cannon";
-import { GLTFResult } from "../App";
 
 export interface ICharacterProps {
   scale?: number;
@@ -39,7 +38,7 @@ export type TAnimationPaths = Record<EAnimationNames, string>;
 
 interface IThirdPersonCharacterControls {
   cameraOptions: ICameraOptions;
-  characterObj: GLTFResult;
+  characterObj: Group;
   characterProps: ICharacterProps;
   animationPaths: TAnimationPaths;
   onLoad: any;
@@ -78,7 +77,7 @@ const ThirdPersonCharacterControls = ({
   });
 
   const { actions, mixer } = useThirdPersonAnimations(
-    characterObj.nodes.Root,
+    characterObj,
     animationPaths,
     onLoad
   );
@@ -112,7 +111,7 @@ const ThirdPersonCharacterControls = ({
 
       // first rotate the model group
       modelRef.current.rotateY(model.direction * -0.05);
-      newRotation = characterObj.scene.rotation.clone();
+      newRotation = characterObj.rotation.clone();
       newRotation.y = model.rotation;
 
       const mtx = new THREE.Matrix4().makeRotationFromQuaternion(
@@ -133,7 +132,7 @@ const ThirdPersonCharacterControls = ({
 
       // rotate character model inside model group
       const newQuat = new THREE.Quaternion().setFromEuler(newRotation);
-      characterObj.nodes.Root.quaternion.slerp(newQuat, 0.1);
+      characterObj.quaternion.slerp(newQuat, 0.1);
     }
 
     collider.velocity.set(xVelocity, velocity.current[1], zVelocity);
@@ -155,11 +154,11 @@ const ThirdPersonCharacterControls = ({
   // Transition to new animation when loaded
   useEffect(() => {
     // @ts-ignore
-    actions?.[animation]?.reset().fadeIn(0.2).play();
+    actions?.[animation]?.stop().fadeIn(0.5).play();
 
     return () => {
       // @ts-ignore
-      actions?.[animation]?.fadeOut(0.2);
+      actions?.[animation]?.fadeOut(0.5);
     };
   }, [animation, actions]);
 
@@ -169,20 +168,10 @@ const ThirdPersonCharacterControls = ({
         <group
           name="Armature"
           position={[0, 0, 0]}
-          rotation={[0, 0, 0]}
-          scale={0.01}
+          rotation={[-Math.PI / 2, 0, 0]}
+          scale={1}
         >
-          <primitive object={characterObj.nodes.Root} />
-          <skinnedMesh
-            name="SM_Chr_ScifiWorlds_SpaceSuit_Female_01"
-            geometry={
-              characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.geometry
-            }
-            material={characterObj.materials["Scifi_1a9.003"]}
-            skeleton={
-              characterObj.nodes.SM_Chr_ScifiWorlds_SpaceSuit_Female_01.skeleton
-            }
-          />
+          <primitive object={characterObj} />
         </group>
       </group>
     </Suspense>
