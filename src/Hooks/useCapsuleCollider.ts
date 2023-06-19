@@ -10,7 +10,6 @@ export default function useCapsuleCollider(radius = 0.5) {
       friction: 0,
       name: "no-fric-zone",
     },
-
     shapes: [
       {
         type: "Sphere",

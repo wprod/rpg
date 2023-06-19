@@ -154,24 +154,19 @@ const ThirdPersonCharacterControls = ({
   // Transition to new animation when loaded
   useEffect(() => {
     // @ts-ignore
-    actions?.[animation]?.stop().fadeIn(0.5).play();
+    actions?.[animation]?.stop().fadeIn(0.2).play();
 
     return () => {
       // @ts-ignore
-      actions?.[animation]?.fadeOut(0.5);
+      actions?.[animation]?.fadeOut(0.2);
     };
   }, [animation, actions]);
 
   return (
     <Suspense>
-      <group dispose={null} ref={modelRef}>
-        <group
-          name="Armature"
-          position={[0, 0, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-          scale={1}
-        >
-          <primitive object={characterObj} />
+      <group ref={modelRef} rotation={[0, Math.PI, 0]} {...characterProps}>
+        <group>
+          <primitive object={characterObj} scale={0.01} />
         </group>
       </group>
     </Suspense>
