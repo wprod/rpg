@@ -1,7 +1,7 @@
 import { useBox } from "@react-three/cannon";
 import React from "react";
 
-function Floor() {
+export function Floor() {
   const [ref] = useBox(() => ({
     type: "Static",
     args: [75, 0.2, 75],
@@ -18,6 +18,7 @@ function Floor() {
       <mesh
         // @ts-ignore
         ref={ref}
+        receiveShadow={true}
       >
         <boxGeometry name="floor-box" />
         <meshPhongMaterial opacity={0} transparent />

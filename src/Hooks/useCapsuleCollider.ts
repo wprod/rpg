@@ -2,7 +2,7 @@ import { useCompoundBody } from "@react-three/cannon";
 
 export default function useCapsuleCollider(radius = 0.5) {
   const [, collider] = useCompoundBody(() => ({
-    mass: 0.25,
+    mass: 0.5,
     fixedRotation: true,
     linearDamping: 0,
     angularDamping: 0,
@@ -12,19 +12,19 @@ export default function useCapsuleCollider(radius = 0.5) {
     },
     shapes: [
       {
-        type: "Sphere",
+        type: "Box",
         position: [0, 0.3, 0],
-        args: [radius],
+        args: [radius, radius * 2, radius],
       },
       {
-        type: "Sphere",
+        type: "Box",
         position: [0, radius * 4.2, 0],
-        args: [radius],
+        args: [radius, radius * 2, radius],
       },
       {
-        type: "Sphere",
+        type: "Box",
         position: [0, radius * 5 - radius * 2.3, 0],
-        args: [radius],
+        args: [radius, radius * 2, radius],
       },
     ],
     position: [0, 0, 0],

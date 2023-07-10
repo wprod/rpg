@@ -116,7 +116,7 @@ export function Heightfield({
       ],
       mass: 0,
       material: {
-        friction: 0.3,
+        friction: 0,
         name: "wall",
       },
       collisionFilterGroup: 2,
@@ -128,7 +128,7 @@ export function Heightfield({
 
   return (
     <mesh ref={ref} castShadow receiveShadow>
-      <meshPhongMaterial color={"brown"} />
+      <meshPhongMaterial color={"#ffb500"} />
       <HeightmapGeometry heights={heights} elementSize={elementSize} />
     </mesh>
   );
