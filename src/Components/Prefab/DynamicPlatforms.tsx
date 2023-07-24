@@ -1,7 +1,7 @@
 import { Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
-import { useRef, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
 export default function DynamicPlatforms() {
