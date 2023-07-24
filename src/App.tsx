@@ -1,7 +1,7 @@
 import "./App.css";
 import { Leva } from "leva";
 import { Canvas } from "@react-three/fiber";
-import Experience from "./Components/Experience.tsx";
+import Game from "./Components/Game.tsx";
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
           e?.target?.requestPointerLock();
         }}
       >
-        <Experience />
+        <Game />
       </Canvas>
     </>
   );

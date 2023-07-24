@@ -1,5 +1,5 @@
 import { RigidBody, useRapier } from "@react-three/rapier";
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
@@ -9,7 +9,6 @@ export default function FloatingPlatform() {
   const floatingPlateRef = useRef<any>();
   const floatingPlateRef2 = useRef<any>();
   const { rapier, world } = useRapier();
-  // const rapierWorld = world.raw();
 
   /**
    * Ray setup

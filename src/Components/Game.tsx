@@ -2,27 +2,21 @@ import { Grid, KeyboardControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import { Physics } from "@react-three/rapier";
 import Character from "./Character.jsx";
-import Floor from "./Floor.jsx";
+import Floor from "./Prefab/Floor.tsx";
 import Lights from "./Lights.jsx";
-import Steps from "./Steps.jsx";
-import Slopes from "./Slopes.jsx";
-import RoughPlane from "./RoughPlane.jsx";
-import RigidObjects from "./RigidObjects.jsx";
-import FloatingPlatform from "./FloatingPlatform.jsx";
-import DynamicPlatforms from "./DynamicPlatforms.jsx";
+import Steps from "./Prefab/Steps.tsx";
+import Slopes from "./Prefab/Slopes.tsx";
+import RoughPlane from "./Prefab/RoughPlane.tsx";
+import RigidObjects from "./Prefab/RigidObjects.tsx";
+import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
+import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
 
-export default function Experience() {
-  /**
-   * Debug settings
-   */
+export default function Game() {
   const { physics } = useControls("World Settings", {
     physics: true,
   });
 
-  /**
-   * Keyboard control preset
-   */
   const keyboardMap = [
     { name: "forward", keys: ["ArrowUp", "KeyW"] },
     { name: "backward", keys: ["ArrowDown", "KeyS"] },
@@ -34,8 +28,6 @@ export default function Experience() {
 
   return (
     <>
-      {/* <OrbitControls makeDefault /> */}
-
       <Perf position="top-left" />
 
       <Grid
