@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimationMixer, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
+
+// @ts-ignore
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+// @ts-ignore
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+// @ts-ignore
 import { Group } from "three/src/Three";
 
 export enum EAnimationNames {

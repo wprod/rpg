@@ -1,13 +1,12 @@
-import { useKeyboardControls } from "@react-three/drei";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
-import { RigidBody, CapsuleCollider, useRapier } from "@react-three/rapier";
-import { useEffect } from "react";
-import { useRef, useMemo, useState } from "react";
+import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { Group, Vector3 } from "three";
 import { useControls } from "leva";
 import useFollowCam from "./hooks/useFollowCam";
-import { Group, Vector3 } from "three";
 import useThirdPersonAnimations from "./hooks/useThirdPersonAnimations.ts";
+// @ts-ignore
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
 import useInputEventManager from "./hooks/useInputEventManager.ts";
 import { useKeyboardInput } from "./hooks/useKeyboardMouseMovement.ts";
@@ -223,6 +222,8 @@ export default function Character() {
     slopeAngle: number,
     movingObjectVelocity: Vector3,
   ) => {
+    if (!characterContainerRef?.current?.quaternion) return;
+
     // Only apply slope extra force when slope angle is between 0.2-1
     if (Math.abs(slopeAngle) > 0.2 && Math.abs(slopeAngle) < 1) {
       movingDirection.set(0, Math.sin(slopeAngle), Math.cos(slopeAngle));
@@ -364,7 +365,7 @@ export default function Character() {
     /**
      * Getting all the useful keys from useKeyboardControls
      */
-    const { up, down, right, left, isMouseLooking, run, jump } = inputs;
+    const { up, down, right, left, run, jump } = inputs;
 
     // Getting moving directions
     if (up) {
