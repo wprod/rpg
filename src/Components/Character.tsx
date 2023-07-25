@@ -6,8 +6,7 @@ import { Group, Vector3 } from "three";
 import { useControls } from "leva";
 import useFollowCam from "./hooks/useFollowCam";
 import useThirdPersonAnimations from "./hooks/useThirdPersonAnimations.ts";
-// @ts-ignore
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import useInputEventManager from "./hooks/useInputEventManager.ts";
 import { useKeyboardInput } from "./hooks/useKeyboardMouseMovement.ts";
 import { getAnimationFromUserInputs } from "./hooks/utils.ts";

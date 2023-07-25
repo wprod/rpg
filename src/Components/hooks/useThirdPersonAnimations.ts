@@ -1,13 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimationMixer, Object3D } from "three";
+import { AnimationMixer, Group, Object3D } from "three";
 import { useFrame } from "@react-three/fiber";
-
-// @ts-ignore
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
-// @ts-ignore
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-// @ts-ignore
-import { Group } from "three/src/Three";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 export enum EAnimationNames {
   IDLE = "idle",
@@ -63,7 +57,7 @@ function useThirdPersonAnimations(
   // load animations async initially
   useEffect(() => {
     const loadAnimations = async () => {
-      const newAnimations: Record<string, GLTF> = {};
+      const newAnimations: Record<string, Group> = {};
 
       await asyncForEach(
         Object.values(EAnimationNames),
