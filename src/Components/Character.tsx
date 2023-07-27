@@ -19,22 +19,22 @@ import {
 export const MODEL_PATH = "/models";
 
 const animationPaths = {
-  idle: `${MODEL_PATH}/idle.fbx`,
-  walk: `${MODEL_PATH}/slowRun.fbx`,
-  run: `${MODEL_PATH}/fastRun.fbx`,
-  jump: `${MODEL_PATH}/jumpingUp.fbx`,
-  landing: `${MODEL_PATH}/jumpingDown.fbx`,
-  inAir: `${MODEL_PATH}/inAir.fbx`,
-  backpedal: `${MODEL_PATH}/backpedal.fbx`,
-  turnLeft: `${MODEL_PATH}/leftTurn.fbx`,
-  turnRight: `${MODEL_PATH}/rightTurn.fbx`,
-  strafeLeft: `${MODEL_PATH}/leftStrafe.fbx`,
-  strafeRight: `${MODEL_PATH}/rightStrafe.fbx`,
+  idle: `/idle.fbx`,
+  walk: `/slow-run.fbx`,
+  run: `/run.fbx`,
+  jump: `/idle.fbx`, // wip
+  landing: `/idle.fbx`, // wip
+  inAir: `/falling.fbx`,
+  backpedal: `/idle.fbx`, // wip
+  turnLeft: `/idle.fbx`, // wip
+  turnRight: `/idle.fbx`, // wip
+  strafeLeft: `/slow-run.fbx`,
+  strafeRight: `/slow-run.fbx`,
 };
 export default function Character() {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
-  const characterObj = useLoader(FBXLoader, `/models/model-2.fbx`);
+  const characterObj = useLoader(FBXLoader, `/girl-m.fbx`);
 
   /**
    * Debug settings
@@ -244,21 +244,6 @@ export default function Character() {
   }, [animation, actions]);
 
   useFrame((state, delta) => {
-    /**
-     * Apply character position to directional light
-     */
-    const dirLight = state.scene.children.find((item) => {
-      return item.type === "DirectionalLight";
-    });
-
-    if (!dirLight) return;
-
-    dirLight.position.x = characterRef.current.translation().x + 20;
-    dirLight.position.y = characterRef.current.translation().y + 30;
-    dirLight.position.z = characterRef.current.translation().z + 10;
-    // @ts-ignore
-    dirLight.target.position.copy(characterRef.current.translation());
-
     /**
      * Getting all the useful keys from useKeyboardControls
      */
@@ -474,7 +459,7 @@ export default function Character() {
   return (
     <RigidBody
       colliders={false}
-      position={[0, 13, 0]}
+      position={[0, 30, 0]}
       friction={-0.5}
       ref={characterRef}
     >
