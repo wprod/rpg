@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "rpg",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -17,7 +17,8 @@
     "@react-three/rapier": "^1.1.1",
     "leva": "^0.9.35",
     "r3f-perf": "^7.1.2",
-    "three": "^0.154.0"
+    "three": "^0.154.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "prettier": "^3.0.0",
