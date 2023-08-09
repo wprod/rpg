@@ -32,7 +32,7 @@ export interface RandomData {
   distance: 1000;
 }
 
-const useStore = create<GameState>()((set, get) => {
+export const useGameStore = create<GameState>()((set, get) => {
   let spline = new GrannyKnot();
   let track = new TubeGeometry(spline, 250, 0.2, 10, true);
 
@@ -43,7 +43,7 @@ const useStore = create<GameState>()((set, get) => {
     sound: false,
     camera: undefined,
     points: 0,
-    health: 100,
+    health: 33,
     lasers: [],
     explosions: [],
     rocks: randomData(100, track, 150, 8, 1),
@@ -151,12 +151,10 @@ function randomData(
 }
 
 function playAudio(audio: any, volume = 1, loop = false) {
-  if (useStore.getState().sound) {
+  if (useGameStore.getState().sound) {
     audio.currentTime = 0;
     audio.volume = volume;
     audio.loop = loop;
     audio.play();
   } else audio.pause();
 }
-
-export default useStore;

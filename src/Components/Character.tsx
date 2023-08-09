@@ -15,12 +15,15 @@ import {
   defaultRaySettings,
   defaultSlopeSettings,
 } from "./Character.types.ts";
+import { useGameStore } from "../store.ts";
 
 export const MODEL_PATH: "meck" | "girl" = "girl";
 
 const animationPaths = {
   idle: `/${MODEL_PATH}/idle.fbx`,
+  injuredIdle: `/${MODEL_PATH}/injured-idle.fbx`,
   walk: `/${MODEL_PATH}/slow-run.fbx`,
+  injuredWalk: `/${MODEL_PATH}/injured-walk.fbx`,
   run: `/${MODEL_PATH}/fast-run.fbx`,
   jump: `/${MODEL_PATH}/falling-idle.fbx`, // wip
   landing: `/${MODEL_PATH}/idle.fbx`, // wip
@@ -35,6 +38,9 @@ export default function Character() {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
   const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
+
+  // Wip state
+  const pv = useGameStore.getState().health;
 
   /**
    * Debug settings
@@ -228,9 +234,10 @@ export default function Character() {
   const {
     gl: { domElement },
   } = useThree();
+
   const inputManager = useInputEventManager(domElement);
   const inputs = useKeyboardInput(inputManager);
-  const animation = getAnimationFromUserInputs(inputs, canJump);
+  const animation = getAnimationFromUserInputs(inputs, canJump, pv < 50);
 
   useEffect(() => {
     console.log(animation);

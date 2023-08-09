@@ -5,6 +5,8 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 export enum EAnimationNames {
   IDLE = "idle",
+  INJURED_IDLE = "injuredIdle",
+  INJURED_WALK = "injuredWalk",
   WALK = "walk",
   RUN = "run",
   JUMP = "jump",
@@ -16,6 +18,7 @@ export enum EAnimationNames {
   STRAFE_RIGHT = "strafeRight",
   STRAFE_LEFT = "strafeLeft",
 }
+
 export type TAnimationPaths = Record<EAnimationNames, string>;
 
 const FBX_LOADER = new FBXLoader();
