@@ -5,7 +5,9 @@ import * as THREE from "three";
 import { Group, Vector3 } from "three";
 import { useControls } from "leva";
 import useFollowCam from "./hooks/useFollowCam";
-import useThirdPersonAnimations from "./hooks/useThirdPersonAnimations.ts";
+import useThirdPersonAnimations, {
+  EAnimationNames,
+} from "./hooks/useThirdPersonAnimations.ts";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import useInputEventManager from "./hooks/useInputEventManager.ts";
 import { useKeyboardInput } from "./hooks/useKeyboardMouseMovement.ts";
@@ -19,7 +21,7 @@ import { useGameStore } from "../store.ts";
 
 export const MODEL_PATH: "meck" | "girl" = "girl";
 
-const animationPaths = {
+const animationPaths: Record<EAnimationNames, string> = {
   idle: `/${MODEL_PATH}/idle.fbx`,
   injuredIdle: `/${MODEL_PATH}/injured-idle.fbx`,
   walk: `/${MODEL_PATH}/slow-run.fbx`,
