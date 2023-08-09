@@ -16,25 +16,25 @@ import {
   defaultSlopeSettings,
 } from "./Character.types.ts";
 
-export const MODEL_PATH = "/models";
+export const MODEL_PATH: "meck" | "girl" = "girl";
 
 const animationPaths = {
-  idle: `/idle.fbx`,
-  walk: `/slow-run.fbx`,
-  run: `/run.fbx`,
-  jump: `/idle.fbx`, // wip
-  landing: `/idle.fbx`, // wip
-  inAir: `/falling.fbx`,
-  backpedal: `/idle.fbx`, // wip
-  turnLeft: `/idle.fbx`, // wip
-  turnRight: `/idle.fbx`, // wip
-  strafeLeft: `/slow-run.fbx`,
-  strafeRight: `/slow-run.fbx`,
+  idle: `/${MODEL_PATH}/idle.fbx`,
+  walk: `/${MODEL_PATH}/slow-run.fbx`,
+  run: `/${MODEL_PATH}/fast-run.fbx`,
+  jump: `/${MODEL_PATH}/falling-idle.fbx`, // wip
+  landing: `/${MODEL_PATH}/idle.fbx`, // wip
+  inAir: `/${MODEL_PATH}/falling-idle.fbx`,
+  backpedal: `/${MODEL_PATH}/idle.fbx`, // wip
+  turnLeft: `/${MODEL_PATH}/idle.fbx`, // wip
+  turnRight: `/${MODEL_PATH}/idle.fbx`, // wip
+  strafeLeft: `/${MODEL_PATH}/slow-run.fbx`,
+  strafeRight: `/${MODEL_PATH}/slow-run.fbx`,
 };
 export default function Character() {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
-  const characterObj = useLoader(FBXLoader, `/girl-m.fbx`);
+  const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
 
   /**
    * Debug settings
