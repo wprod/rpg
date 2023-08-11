@@ -11,6 +11,7 @@ import RigidObjects from "./Prefab/RigidObjects.tsx";
 import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
 import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
+import { Collision } from "./Prefab/Collision.tsx";
 
 export default function Game() {
   const { physics } = useControls("World Settings", {
@@ -48,6 +49,9 @@ export default function Game() {
 
         {/* Rough plan */}
         <RoughPlane />
+
+        {/* Rough plan */}
+        <Collision />
 
         {/* Slopes and stairs */}
         <Slopes />

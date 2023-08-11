@@ -1,11 +1,12 @@
 import { Text } from "@react-three/drei";
 import { BallCollider, CylinderCollider, RigidBody } from "@react-three/rapier";
+import { Suspense } from "react";
 
 export default function RigidObjects() {
   return (
-    <>
+    <Suspense fallback={<></>}>
       {/* Rigid body boxes */}
-      <RigidBody position={[15, 0, 0]}>
+      <RigidBody position={[15, 10, 0]}>
         <Text
           scale={0.5}
           color="black"
@@ -21,7 +22,8 @@ export default function RigidObjects() {
           <meshStandardMaterial color={"lightsteelblue"} />
         </mesh>
       </RigidBody>
-      <RigidBody position={[15, 0, -2]}>
+
+      <RigidBody position={[15, 10, -2]}>
         <Text
           scale={0.5}
           color="black"
@@ -37,7 +39,8 @@ export default function RigidObjects() {
           <meshStandardMaterial color={"lightsteelblue"} />
         </mesh>
       </RigidBody>
-      <RigidBody position={[15, 0, -5]}>
+
+      <RigidBody position={[15, 10, -5]}>
         <Text
           scale={0.5}
           color="black"
@@ -73,6 +76,6 @@ export default function RigidObjects() {
           <meshStandardMaterial color={"lightsteelblue"} />
         </mesh>
       </RigidBody>
-    </>
+    </Suspense>
   );
 }

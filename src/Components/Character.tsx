@@ -1,6 +1,6 @@
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Group, Vector3 } from "three";
 import { useControls } from "leva";
@@ -18,6 +18,7 @@ import {
   defaultSlopeSettings,
 } from "./Character.types.ts";
 import { useGameStore } from "../store.ts";
+import { Loader } from "./Loader.tsx";
 
 export const MODEL_PATH: "meck" | "girl" = "girl";
 
@@ -40,7 +41,6 @@ export default function Character() {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
   const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
-
   // Wip state
   const pv = useGameStore.getState().health;
 
@@ -242,7 +242,6 @@ export default function Character() {
   const animation = getAnimationFromUserInputs(inputs, canJump, pv < 50);
 
   useEffect(() => {
-    console.log(animation);
     // @ts-ignore
     actions?.[animation]?.stop().fadeIn(0.2).play();
 
@@ -466,23 +465,26 @@ export default function Character() {
   });
 
   return (
-    <RigidBody
-      colliders={false}
-      position={[0, 30, 0]}
-      friction={-0.5}
-      ref={characterRef}
-    >
-      <CapsuleCollider args={[0.35, 0.3]} />
-      <group ref={characterContainerRef}>
-        <mesh position={[0, 0, slopeRayOriginOffest]} ref={slopeRayOriginRef}>
-          <boxGeometry args={[0.1, 0.1, 0.1]} />
-        </mesh>
-        <primitive
-          object={characterObj}
-          scale={0.01}
-          position={[0, -0.78, 0]}
-        />
-      </group>
-    </RigidBody>
+    <Suspense fallback={<Loader />}>
+      <RigidBody
+        colliders={false}
+        position={[0, 5, 0]}
+        friction={-0.5}
+        ref={characterRef}
+      >
+        <CapsuleCollider args={[0.35, 0.3]} />
+
+        <group ref={characterContainerRef}>
+          <mesh position={[0, 0, slopeRayOriginOffest]} ref={slopeRayOriginRef}>
+            <boxGeometry args={[0.1, 0.1, 0.1]} />
+          </mesh>
+          <primitive
+            object={characterObj}
+            scale={0.01}
+            position={[0, -0.78, 0]}
+          />
+        </group>
+      </RigidBody>
+    </Suspense>
   );
 }
