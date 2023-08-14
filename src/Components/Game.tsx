@@ -12,6 +12,7 @@ import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
 import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
 import { Collision } from "./Prefab/Collision.tsx";
+import FloatingIsland from "./Prefab/FloatingIsland.tsx";
 
 export default function Game() {
   const { physics } = useControls("World Settings", {
@@ -49,6 +50,9 @@ export default function Game() {
 
         {/* Rough plan */}
         <RoughPlane />
+
+        {/* Rough plan */}
+        <FloatingIsland />
 
         {/* Rough plan */}
         <Collision />
