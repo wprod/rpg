@@ -1,6 +1,6 @@
 import { CuboidCollider } from "@react-three/rapier";
 import { Suspense, useState } from "react";
-import { Box, Text } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import { useGameStore } from "../../store.ts";
 
 export const Collision = () => {
@@ -8,17 +8,13 @@ export const Collision = () => {
 
   return (
     <Suspense fallback={null}>
-      <Box>
-        <Text color="black" position={[0, 2, 3]} fontSize={0.5}>
-          Heal
-        </Text>
-      </Box>
+      <Text color="black" position={[0, 2, 3]} fontSize={0.5}>
+        Heal
+      </Text>
       {intersecting && (
-        <Box>
-          <Text color="red" position={[0, 1, 3]} fontSize={0.5}>
-            Healed
-          </Text>
-        </Box>
+        <Text color="red" position={[0, 1, 3]} fontSize={0.5}>
+          Healed
+        </Text>
       )}
 
       <CuboidCollider
@@ -34,7 +30,7 @@ export const Collision = () => {
           setIntersection(true);
         }}
         onIntersectionExit={() => setIntersection(false)}
-      />
+      ></CuboidCollider>
     </Suspense>
   );
 };

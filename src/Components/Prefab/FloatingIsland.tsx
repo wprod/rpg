@@ -1,4 +1,4 @@
-import { ConeCollider, RigidBody, useRapier } from "@react-three/rapier";
+import { CylinderCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useLoader } from "@react-three/fiber";
@@ -19,7 +19,7 @@ export default function FloatingIsland() {
   const rayDir = { x: 0, y: -1, z: 0 };
   const springDirVec = useMemo(() => new THREE.Vector3(), []);
   const origin = useMemo(() => new THREE.Vector3(), []);
-  const floatingDis = 0.8;
+  const floatingDis = 1.2;
   const springK = 2.5;
   const dampingC = 0.15;
 
@@ -70,11 +70,11 @@ export default function FloatingIsland() {
     <>
       <RigidBody
         colliders={false}
-        position={[-10, 1, 3]}
+        position={[-10, 10, 3]}
         mass={1}
         ref={floatingPlateRef}
       >
-        <ConeCollider args={[0.5, 1.35]} rotation={[Math.PI, 0, 0]} />
+        <CylinderCollider args={[0.5, 1.35]} rotation={[Math.PI, 0, 0]} />
         <primitive object={island} scale={0.005} position={[0, 0.4, 0]} />
       </RigidBody>
     </>
