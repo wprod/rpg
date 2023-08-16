@@ -13,6 +13,12 @@ import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
 import { Collision } from "./Prefab/Collision.tsx";
 import FloatingIsland from "./Prefab/FloatingIsland.tsx";
+import { DefaultLoadingManager } from "three";
+import { useEffect, useState } from "react";
+
+DefaultLoadingManager.onLoad = function () {
+  console.log("Loading Complete!");
+};
 
 export default function Game() {
   const { physics } = useControls("World Settings", {
@@ -28,6 +34,14 @@ export default function Game() {
     { name: "run", keys: ["Shift"] },
   ];
 
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    DefaultLoadingManager.onLoad = function () {
+      setLoaded(true);
+    };
+  }, []);
+
   return (
     <>
       <Perf position="top-left" />
@@ -42,7 +56,7 @@ export default function Game() {
 
       <Lights />
 
-      <Physics debug={physics} timeStep="vary">
+      <Physics debug={physics} paused={!loaded} timeStep="vary">
         {/* Character */}
         <KeyboardControls map={keyboardMap}>
           <Character />

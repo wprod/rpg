@@ -41,6 +41,7 @@ export default function Character() {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
   const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
+
   // Wip state
   const pv = useGameStore.getState().health;
 
