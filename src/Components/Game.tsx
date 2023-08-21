@@ -15,6 +15,7 @@ import { Collision } from "./Prefab/Collision.tsx";
 import FloatingIsland from "./Prefab/FloatingIsland.tsx";
 import { DefaultLoadingManager } from "three";
 import { useEffect, useState } from "react";
+import Map from "./Prefab/Map.tsx";
 
 DefaultLoadingManager.onLoad = function () {
   console.log("Loading Complete!");
@@ -64,6 +65,8 @@ export default function Game() {
 
         {/* Rough plan */}
         <RoughPlane />
+
+        <Map />
 
         {/* Rough plan */}
         <FloatingIsland />

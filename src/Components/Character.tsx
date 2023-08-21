@@ -469,7 +469,7 @@ export default function Character() {
     <Suspense fallback={<Loader />}>
       <RigidBody
         colliders={false}
-        position={[0, 5, 0]}
+        position={[0, 25, 0]}
         friction={-0.5}
         ref={characterRef}
       >
