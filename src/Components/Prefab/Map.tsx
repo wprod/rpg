@@ -8,7 +8,7 @@ import { RigidBody } from "@react-three/rapier";
 
 type GLTFResult = GLTF & {
   nodes: {
-    alien_stone: THREE.Mesh;
+    colliders: THREE.Mesh;
     floating_1: THREE.Mesh;
     floating_2: THREE.Mesh;
     grass_1: THREE.Mesh;
@@ -17,8 +17,8 @@ type GLTFResult = GLTF & {
     grass_459: THREE.Mesh;
     grass_65: THREE.Mesh;
     island: THREE.Mesh;
-    portal: THREE.Mesh;
     stairs: THREE.Mesh;
+    portal001: THREE.Mesh;
     stone_1: THREE.Mesh;
     stone_12: THREE.Mesh;
     stone_2: THREE.Mesh;
@@ -31,7 +31,6 @@ type GLTFResult = GLTF & {
     tree_1: THREE.Mesh;
     tree_125: THREE.Mesh;
     tree_3: THREE.Mesh;
-    tree_4: THREE.Mesh;
     tree_5522: THREE.Mesh;
     tree_986: THREE.Mesh;
     tree_9865: THREE.Mesh;
@@ -48,22 +47,20 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
     return new MeshBasicMaterial({ map: texture });
   }, [texture]);
 
-  useEffect(() => {
-    if (scene && bakedMaterial) {
-      scene.traverse((child) => {
-        (child as Mesh).material = bakedMaterial;
-      });
-    }
-  }, [scene, bakedMaterial]);
+    const colliderMaterial = useMemo(() => {
+      return new MeshBasicMaterial({ transparent: true, opacity: 0 });
+    }, [texture]);
+
+    useEffect(() => {
+      if (scene && bakedMaterial) {
+        scene.traverse((child) => {
+          (child as Mesh).material = bakedMaterial;
+        });
+      }
+    }, [scene, bakedMaterial]);
 
   return (
     <group {...props} dispose={null} position={[0, 12, 0]}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.alien_stone.geometry}
-        material={bakedMaterial}
-      />
       <mesh
         castShadow
         receiveShadow
@@ -106,24 +103,30 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
         geometry={nodes.grass_65.geometry}
         material={bakedMaterial}
       />
-      <RigidBody colliders={"hull"} type={"fixed"}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.island.geometry}
+        material={bakedMaterial}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.portal001.geometry}
+        material={bakedMaterial}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.stairs.geometry}
+        material={bakedMaterial}
+      />
+      <RigidBody colliders={"trimesh"} type={"fixed"}>
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.island.geometry}
-          material={bakedMaterial}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.portal.geometry}
-          material={bakedMaterial}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.stairs.geometry}
-          material={nodes.stairs.material}
+          geometry={nodes.colliders.geometry}
+          material={colliderMaterial}
         />
       </RigidBody>
 
@@ -131,13 +134,13 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
         castShadow
         receiveShadow
         geometry={nodes.stone_1.geometry}
-        material={nodes.stone_1.material}
+        material={bakedMaterial}
       />
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.stone_12.geometry}
-        material={nodes.stone_12.material}
+        material={bakedMaterial}
       />
       <mesh
         castShadow
@@ -155,7 +158,7 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
         castShadow
         receiveShadow
         geometry={nodes.stone_358.geometry}
-        material={nodes.stone_358.material}
+        material={bakedMaterial}
       />
       <mesh
         castShadow
@@ -197,12 +200,6 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
         castShadow
         receiveShadow
         geometry={nodes.tree_3.geometry}
-        material={bakedMaterial}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.tree_4.geometry}
         material={bakedMaterial}
       />
       <mesh

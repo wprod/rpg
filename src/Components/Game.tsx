@@ -12,10 +12,10 @@ import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
 import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
 import { Collision } from "./Prefab/Collision.tsx";
-import FloatingIsland from "./Prefab/FloatingIsland.tsx";
 import { DefaultLoadingManager } from "three";
 import { useEffect, useState } from "react";
 import Map from "./Prefab/Map.tsx";
+import RagingSea from "./Prefab/RagingSea.tsx";
 
 DefaultLoadingManager.onLoad = function () {
   console.log("Loading Complete!");
@@ -54,6 +54,7 @@ export default function Game() {
         cellColor={"gray"}
         position={[0, -0.99, 0]}
       />
+      <RagingSea />
 
       <Lights />
 
@@ -67,9 +68,6 @@ export default function Game() {
         <RoughPlane />
 
         <Map />
-
-        {/* Rough plan */}
-        <FloatingIsland />
 
         {/* Rough plan */}
         <Collision />
