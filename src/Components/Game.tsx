@@ -52,7 +52,7 @@ export default function Game() {
         followCamera
         sectionColor={"lightgray"}
         cellColor={"gray"}
-        position={[0, -0.99, 0]}
+        position={[0, 1.99, 0]}
       />
       <RagingSea />
 
