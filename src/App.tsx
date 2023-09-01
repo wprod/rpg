@@ -12,7 +12,7 @@ function App() {
         camera={{
           fov: 65,
           near: 0.1,
-          far: 1000,
+          far: 250,
           position: [0, 0, -1],
         }}
         onPointerDown={(e) => {

@@ -7,19 +7,19 @@ import { useControls } from "leva";
 const CustomMaterial = shaderMaterial(
   {
     uTime: 0,
-    uBigWavesElevation: 1.32,
-    uBigWavesFrequency: new Vector2(0.1, 0.5),
+    uBigWavesElevation: 5.32,
+    uBigWavesFrequency: new Vector2(0.05, 0.1),
     uBigWavesSpeed: 0.35,
 
     uSmallWavesElevation: 1,
-    uSmallWavesFrequency: 1,
+    uSmallWavesFrequency: 0.51,
     uSmallWavesSpeed: 0.5,
     uSmallIterations: 2,
 
-    uDepthColor: new Color("#1e4d40"),
-    uSurfaceColor: new Color("#4d9aaa"),
-    uColorOffset: 0.08,
-    uColorMultiplier: 5,
+    uDepthColor: new Color("#503b85"),
+    uSurfaceColor: new Color("#8a7fea"),
+    uColorOffset: 1.08,
+    uColorMultiplier: 7,
   },
   `
     uniform float uTime;
@@ -184,42 +184,46 @@ export default function RagingSea(props: any) {
     }
   });
 
-    const {
-      uBigWavesElevation,
-      uBigWavesSpeed,
-      uSmallWavesElevation,
-      uSmallWavesFrequency,
-      uSmallWavesSpeed,
-      uSmallIterations,
-      uColorOffset,
-      uColorMultiplier,
-    } = useControls("Sea", {
-      uBigWavesElevation: 1.32,
-      uBigWavesSpeed: 0.35,
-      uSmallWavesElevation: 1,
-      uSmallWavesFrequency: 1,
-      uSmallWavesSpeed: 0.5,
-      uSmallIterations: 2,
-      uColorOffset: 0.08,
-      uColorMultiplier: 5,
-    });
+  const {
+    uBigWavesElevation,
+    uBigWavesSpeed,
 
-    return (
-      <group {...props} dispose={null}>
-        <mesh receiveShadow position={[0, 0, 0]}>
-          <customMaterial
-            ref={material}
-            uBigWavesElevation={uBigWavesElevation}
-            uBigWavesSpeed={uBigWavesSpeed}
-            uSmallWavesElevation={uSmallWavesElevation}
-            uSmallWavesFrequency={uSmallWavesFrequency}
-            uSmallWavesSpeed={uSmallWavesSpeed}
-            uSmallIterations={uSmallIterations}
-            uColorOffset={uColorOffset}
-            uColorMultiplier={uColorMultiplier}
-          />
-          <boxGeometry args={[100, 0, 100, 512, 1, 512]} />
-        </mesh>
-      </group>
-    );
+    uSmallWavesElevation,
+    uSmallWavesFrequency,
+    uSmallWavesSpeed,
+    uSmallIterations,
+
+    uColorOffset,
+    uColorMultiplier,
+  } = useControls("Sea", {
+    uBigWavesElevation: 5.32,
+    uBigWavesSpeed: 0.35,
+
+    uSmallWavesElevation: 1,
+    uSmallWavesFrequency: 0.51,
+    uSmallWavesSpeed: 0.5,
+    uSmallIterations: 2,
+
+    uColorOffset: 1.08,
+    uColorMultiplier: 7,
+  });
+
+  return (
+    <group {...props} dispose={null}>
+      <mesh position={[0, 0, 0]}>
+        <customMaterial
+          ref={material}
+          uBigWavesElevation={uBigWavesElevation}
+          uBigWavesSpeed={uBigWavesSpeed}
+          uSmallWavesElevation={uSmallWavesElevation}
+          uSmallWavesFrequency={uSmallWavesFrequency}
+          uSmallWavesSpeed={uSmallWavesSpeed}
+          uSmallIterations={uSmallIterations}
+          uColorOffset={uColorOffset}
+          uColorMultiplier={uColorMultiplier}
+        />
+        <boxGeometry args={[100, 0, 100, 128, 1, 128]} />
+      </mesh>
+    </group>
+  );
 }

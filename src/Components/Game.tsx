@@ -4,9 +4,6 @@ import { Physics } from "@react-three/rapier";
 import Character from "./Character.jsx";
 import Floor from "./Prefab/Floor.tsx";
 import Lights from "./Lights.jsx";
-import Steps from "./Prefab/Steps.tsx";
-import Slopes from "./Prefab/Slopes.tsx";
-import RoughPlane from "./Prefab/RoughPlane.tsx";
 import RigidObjects from "./Prefab/RigidObjects.tsx";
 import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
 import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
@@ -14,7 +11,7 @@ import { useControls } from "leva";
 import { Collision } from "./Prefab/Collision.tsx";
 import { DefaultLoadingManager } from "three";
 import { useEffect, useState } from "react";
-import Map from "./Prefab/Map.tsx";
+import PortalIsland from "./Prefab/PortalIsland.tsx";
 import RagingSea from "./Prefab/RagingSea.tsx";
 
 DefaultLoadingManager.onLoad = function () {
@@ -52,9 +49,10 @@ export default function Game() {
         followCamera
         sectionColor={"lightgray"}
         cellColor={"gray"}
-        position={[0, 1.99, 0]}
+        position={[0, 0, 0]}
       />
-      <RagingSea />
+
+      <RagingSea position={[0, -15, 0]} />
 
       <Lights />
 
@@ -64,19 +62,11 @@ export default function Game() {
           <Character />
         </KeyboardControls>
 
-        {/* Rough plan */}
-        <RoughPlane />
+        {/* Portal */}
+        <PortalIsland rotation-y={-Math.PI} position={[0, 0.75, 20]} />
 
-        <Map />
-
-        {/* Rough plan */}
+        {/* Interaction */}
         <Collision />
-
-        {/* Slopes and stairs */}
-        <Slopes />
-
-        {/* Small steps */}
-        <Steps />
 
         {/* Rigid body objects */}
         <RigidObjects />

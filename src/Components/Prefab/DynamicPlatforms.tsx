@@ -21,7 +21,7 @@ export default function DynamicPlatforms() {
     // Move platform
     sideMovePlatformRef.current.setNextKinematicTranslation({
       x: 5 * Math.sin(time / 2) - 12,
-      y: -0.5,
+      y: 0,
       z: -10,
     });
 
@@ -58,7 +58,7 @@ export default function DynamicPlatforms() {
       {/* Rotating Platform */}
       <RigidBody
         type="kinematicPosition"
-        position={[-25, -0.5, -10]}
+        position={[-25, 0, -10]}
         ref={rotatePlatformRef}
       >
         <Text
@@ -86,10 +86,11 @@ export default function DynamicPlatforms() {
       >
         Kinematic Rotating Drum
       </Text>
+
       <RigidBody
         colliders={false}
         type="kinematicPosition"
-        position={[-15, -1, -15]}
+        position={[-15, 0, -15]}
         ref={rotationDrumRef}
       >
         <group rotation={[0, 0, Math.PI / 2]}>

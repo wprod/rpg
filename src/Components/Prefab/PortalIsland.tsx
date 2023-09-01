@@ -38,7 +38,7 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-export default function Map(props: JSX.IntrinsicElements["group"]) {
+export default function PortalIsland(props: JSX.IntrinsicElements["group"]) {
   const { nodes, scene } = useGLTF("/island/island.glb") as GLTFResult;
   const texture = useLoader(TextureLoader, `/island/backed-4k.jpg`);
   texture.flipY = false;
@@ -47,20 +47,20 @@ export default function Map(props: JSX.IntrinsicElements["group"]) {
     return new MeshBasicMaterial({ map: texture });
   }, [texture]);
 
-    const colliderMaterial = useMemo(() => {
-      return new MeshBasicMaterial({ transparent: true, opacity: 0 });
-    }, [texture]);
+  const colliderMaterial = useMemo(() => {
+    return new MeshBasicMaterial({ transparent: true, opacity: 0 });
+  }, [texture]);
 
-    useEffect(() => {
-      if (scene && bakedMaterial) {
-        scene.traverse((child) => {
-          (child as Mesh).material = bakedMaterial;
-        });
-      }
-    }, [scene, bakedMaterial]);
+  useEffect(() => {
+    if (scene && bakedMaterial) {
+      scene.traverse((child) => {
+        (child as Mesh).material = bakedMaterial;
+      });
+    }
+  }, [scene, bakedMaterial]);
 
   return (
-    <group {...props} dispose={null} position={[0, 12, 0]}>
+    <group {...props} dispose={null} scale={0.9}>
       <mesh
         castShadow
         receiveShadow
