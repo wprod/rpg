@@ -52,7 +52,7 @@ export default function Game() {
         position={[0, 0, 0]}
       />
 
-      <RagingSea position={[0, -15, 0]} />
+      <RagingSea position={[0, -5, 0]} />
 
       <Lights />
 

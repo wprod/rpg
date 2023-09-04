@@ -8,7 +8,7 @@ const CustomMaterial = shaderMaterial(
   {
     uTime: 0,
     uBigWavesElevation: 5.32,
-    uBigWavesFrequency: new Vector2(0.05, 0.1),
+    uBigWavesFrequency: new Vector2(10, 10),
     uBigWavesSpeed: 0.35,
 
     uSmallWavesElevation: 1,
@@ -196,21 +196,61 @@ export default function RagingSea(props: any) {
     uColorOffset,
     uColorMultiplier,
   } = useControls("Sea", {
-    uBigWavesElevation: 5.32,
-    uBigWavesSpeed: 0.35,
+    uBigWavesElevation: {
+      value: 2.66,
+      min: 0,
+      max: 8,
+      step: 0.01,
+    },
+    uBigWavesSpeed: {
+      value: 0.18,
+      min: 0,
+      max: 3,
+      step: 0.01,
+    },
 
-    uSmallWavesElevation: 1,
-    uSmallWavesFrequency: 0.51,
-    uSmallWavesSpeed: 0.5,
-    uSmallIterations: 2,
+    uSmallWavesElevation: {
+      value: 0.9,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
+    uSmallWavesFrequency: {
+      value: 0.28,
+      min: 0,
+      max: 3,
+      step: 0.01,
+    },
+    uSmallWavesSpeed: {
+      value: 0.2,
+      min: 0,
+      max: 3,
+      step: 0.01,
+    },
+    uSmallIterations: {
+      value: 4.37,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
 
-    uColorOffset: 1.08,
-    uColorMultiplier: 7,
+    uColorOffset: {
+      value: 1.9,
+      min: 0,
+      max: 3,
+      step: 0.01,
+    },
+    uColorMultiplier: {
+      value: 1.1,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
   });
 
   return (
     <group {...props} dispose={null}>
-      <mesh position={[0, 0, 0]}>
+      <mesh rotation-x={-Math.PI / 2}>
         <customMaterial
           ref={material}
           uBigWavesElevation={uBigWavesElevation}
@@ -221,8 +261,9 @@ export default function RagingSea(props: any) {
           uSmallIterations={uSmallIterations}
           uColorOffset={uColorOffset}
           uColorMultiplier={uColorMultiplier}
+          uBigWavesFrequency={new Vector2(0.125, 0.125)}
         />
-        <boxGeometry args={[100, 0, 100, 128, 1, 128]} />
+        <planeGeometry args={[50, 50, 512, 512]} />
       </mesh>
     </group>
   );
