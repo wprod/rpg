@@ -106,7 +106,7 @@ export default function FloatingPlatform() {
   return (
     <>
       {/* Platform 1 */}
-      <RigidBody position={[0, 5, -10]} mass={1} ref={floatingPlateRef}>
+      <RigidBody position={[0, 1, 0]} mass={1} ref={floatingPlateRef}>
         <Text
           scale={0.5}
           color="black"
@@ -123,7 +123,7 @@ export default function FloatingPlatform() {
       </RigidBody>
 
       {/* Platform 2 */}
-      <RigidBody position={[7, 5, -10]} mass={1} ref={floatingPlateRef2}>
+      <RigidBody position={[0, 1, 7]} mass={1} ref={floatingPlateRef2}>
         <Text
           scale={0.5}
           color="black"

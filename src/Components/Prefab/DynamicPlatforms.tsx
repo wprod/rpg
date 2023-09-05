@@ -58,7 +58,7 @@ export default function DynamicPlatforms() {
       {/* Rotating Platform */}
       <RigidBody
         type="kinematicPosition"
-        position={[-25, 0, -10]}
+        position={[0, 1, -7]}
         ref={rotatePlatformRef}
       >
         <Text
@@ -90,7 +90,7 @@ export default function DynamicPlatforms() {
       <RigidBody
         colliders={false}
         type="kinematicPosition"
-        position={[-15, 0, -15]}
+        position={[0, 0, -15]}
         ref={rotationDrumRef}
       >
         <group rotation={[0, 0, Math.PI / 2]}>

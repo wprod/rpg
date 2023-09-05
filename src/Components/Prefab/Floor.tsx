@@ -5,7 +5,7 @@ export default function Floor() {
     <RigidBody type="fixed">
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[300, 0.5, 300]} />
-        <meshPhongMaterial color="#ff0000" opacity={0.1} transparent />
+        <meshPhongMaterial color="#ff0000" opacity={0} transparent />
       </mesh>
     </RigidBody>
   );

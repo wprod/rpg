@@ -20,7 +20,7 @@ DefaultLoadingManager.onLoad = function () {
 
 export default function Game() {
   const { physics } = useControls("World Settings", {
-    physics: true,
+    physics: false,
   });
 
   const keyboardMap = [
@@ -44,40 +44,31 @@ export default function Game() {
     <>
       <Perf position="top-left" />
 
-      <Grid
-        infiniteGrid
-        followCamera
-        sectionColor={"lightgray"}
-        cellColor={"gray"}
-        position={[0, 0, 0]}
-      />
+      <fog attach="fog" args={["#17171b", 30, 40]} />
 
-      <RagingSea position={[0, -5, 0]} />
+      <color attach="background" args={["#17171b"]} />
+
+      <Grid visible={false} infiniteGrid followCamera position={[0, 0, 0]} />
+
+      <RagingSea position={[0, -15, 0]} />
 
       <Lights />
 
       <Physics debug={physics} paused={!loaded} timeStep="vary">
-        {/* Character */}
         <KeyboardControls map={keyboardMap}>
           <Character />
         </KeyboardControls>
 
-        {/* Portal */}
         <PortalIsland rotation-y={-Math.PI} position={[0, 0.75, 20]} />
 
-        {/* Interaction */}
         <Collision />
 
-        {/* Rigid body objects */}
         <RigidObjects />
 
-        {/* Floating platform */}
         <FloatingPlatform />
 
-        {/* Dynamic platforms */}
         <DynamicPlatforms />
 
-        {/* Floor */}
         <Floor />
       </Physics>
     </>

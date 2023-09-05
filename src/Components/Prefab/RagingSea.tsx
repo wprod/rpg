@@ -1,7 +1,7 @@
 import { shaderMaterial } from "@react-three/drei";
 import { extend, ReactThreeFiber, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Color, Vector2 } from "three";
+import { Color, Group, Vector2, Vector3 } from "three";
 import { useControls } from "leva";
 
 const CustomMaterial = shaderMaterial(
@@ -170,19 +170,25 @@ declare global {
   }
 }
 
-// shaderMaterial creates a THREE.ShaderMaterial, and auto-creates uniform setter/getters
-// extend makes it available in JSX, in this case <portalMaterial />
-
 export default function RagingSea(props: any) {
   const material = useRef(null);
+  const ref = useRef<Group | null>(null);
 
-  useFrame((_state, delta) => {
-    // @ts-ignore
-    if (material?.current) {
+    useFrame(({ scene }, delta) => {
       // @ts-ignore
-      material.current.uTime += delta;
-    }
-  });
+      if (material?.current) {
+        // @ts-ignore
+        material.current.uTime += delta;
+      }
+
+      if (!ref?.current) return;
+
+      ref.current.position.copy(
+        scene.getObjectByName("character")?.position ?? new Vector3(0, 0, 0),
+      );
+
+      ref.current.position.y = -10;
+    });
 
   const {
     uBigWavesElevation,
@@ -249,7 +255,7 @@ export default function RagingSea(props: any) {
   });
 
   return (
-    <group {...props} dispose={null}>
+    <group ref={ref} {...props} dispose={null}>
       <mesh rotation-x={-Math.PI / 2}>
         <customMaterial
           ref={material}
@@ -263,7 +269,7 @@ export default function RagingSea(props: any) {
           uColorMultiplier={uColorMultiplier}
           uBigWavesFrequency={new Vector2(0.125, 0.125)}
         />
-        <planeGeometry args={[50, 50, 512, 512]} />
+        <ringGeometry args={[0, 50, 512, 512]} />
       </mesh>
     </group>
   );

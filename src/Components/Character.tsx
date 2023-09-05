@@ -468,6 +468,7 @@ export default function Character() {
   return (
     <Suspense fallback={<Loader />}>
       <RigidBody
+        name="character"
         colliders={false}
         position={[0, 25, 0]}
         friction={-0.5}
