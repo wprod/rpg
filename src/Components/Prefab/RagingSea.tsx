@@ -4,54 +4,50 @@ import { useRef } from "react";
 import { Color, Group, Vector2, Vector3 } from "three";
 import { useControls } from "leva";
 
-const CustomMaterial = shaderMaterial(
-  {
-    uTime: 0,
-    uBigWavesElevation: 5.32,
-    uBigWavesFrequency: new Vector2(10, 10),
-    uBigWavesSpeed: 0.35,
+const customUniforms = {
+  uTime: 0,
+  uBigWavesElevation: 5.32,
+  uBigWavesFrequency: new Vector2(10, 10),
+  uBigWavesSpeed: 0.35,
 
-    uSmallWavesElevation: 1,
-    uSmallWavesFrequency: 0.51,
-    uSmallWavesSpeed: 0.5,
-    uSmallIterations: 2,
+  uSmallWavesElevation: 1,
+  uSmallWavesFrequency: 0.51,
+  uSmallWavesSpeed: 0.5,
+  uSmallIterations: 2,
 
-    uDepthColor: new Color("#503b85"),
-    uSurfaceColor: new Color("#8a7fea"),
-    uColorOffset: 1.08,
-    uColorMultiplier: 7,
-  },
-  `
+  uDepthColor: new Color("#503b85"),
+  uSurfaceColor: new Color("#8a7fea"),
+  uColorOffset: 1.08,
+  uColorMultiplier: 7,
+};
+
+const vertex = `
     uniform float uTime;
     uniform float uBigWavesElevation;
     uniform vec2 uBigWavesFrequency;
     uniform float uBigWavesSpeed;
-    
     uniform float uSmallWavesElevation;
     uniform float uSmallWavesFrequency;
     uniform float uSmallWavesSpeed;
     uniform float uSmallIterations;
     
+    varying vec2 vUv;
     varying float vElevation;
     
-    // Classic Perlin 3D Noise 
-    // by Stefan Gustavson
-    //
-    vec4 permute(vec4 x)
-    {
-        return mod(((x*34.0)+1.0)*x, 289.0);
+    // Classic Perlin 3D Noise by Stefan Gustavson
+    vec4 permute(vec4 x) {
+        return mod(((x * 34.0) + 1.0) * x, 289.0);
     }
-    vec4 taylorInvSqrt(vec4 r)
-    {
+    
+    vec4 taylorInvSqrt(vec4 r) {
         return 1.79284291400159 - 0.85373472095314 * r;
     }
-    vec3 fade(vec3 t)
-    {
-        return t*t*t*(t*(t*6.0-15.0)+10.0);
+    
+    vec3 fade(vec3 t) {
+        return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
     }
-
-    float cnoise(vec3 P)
-    {
+    
+    float cnoise(vec3 P) {
         vec3 Pi0 = floor(P); // Integer part for indexing
         vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
         Pi0 = mod(Pi0, 289.0);
@@ -83,14 +79,14 @@ const CustomMaterial = shaderMaterial(
         gx1 -= sz1 * (step(0.0, gx1) - 0.5);
         gy1 -= sz1 * (step(0.0, gy1) - 0.5);
     
-        vec3 g000 = vec3(gx0.x,gy0.x,gz0.x);
-        vec3 g100 = vec3(gx0.y,gy0.y,gz0.y);
-        vec3 g010 = vec3(gx0.z,gy0.z,gz0.z);
-        vec3 g110 = vec3(gx0.w,gy0.w,gz0.w);
-        vec3 g001 = vec3(gx1.x,gy1.x,gz1.x);
-        vec3 g101 = vec3(gx1.y,gy1.y,gz1.y);
-        vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);
-        vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);
+        vec3 g000 = vec3(gx0.x, gy0.x, gz0.x);
+        vec3 g100 = vec3(gx0.y, gy0.y, gz0.y);
+        vec3 g010 = vec3(gx0.z, gy0.z, gz0.z);
+        vec3 g110 = vec3(gx0.w, gy0.w, gz0.w);
+        vec3 g001 = vec3(gx1.x, gy1.x, gz1.x);
+        vec3 g101 = vec3(gx1.y, gy1.y, gz1.y);
+        vec3 g011 = vec3(gx1.z, gy1.z, gz1.z);
+        vec3 g111 = vec3(gx1.w, gy1.w, gz1.w);
     
         vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
         g000 *= norm0.x;
@@ -115,12 +111,13 @@ const CustomMaterial = shaderMaterial(
         vec3 fade_xyz = fade(Pf0);
         vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
         vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
-        float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
+        float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
         return 2.2 * n_xyz;
     }
-
-    void main()
-    {
+    
+    void main() {
+        vUv = uv;
+    
         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     
         // Elevation
@@ -128,11 +125,10 @@ const CustomMaterial = shaderMaterial(
                           sin(modelPosition.z * uBigWavesFrequency.y + uTime * uBigWavesSpeed) *
                           uBigWavesElevation;
     
-        for(float i = 1.0; i <= uSmallIterations; i++)
-        {
+        for (float i = 1.0; i <= uSmallIterations; i++) {
             elevation -= abs(cnoise(vec3(modelPosition.xz * uSmallWavesFrequency * i, uTime * uSmallWavesSpeed)) * uSmallWavesElevation / i);
         }
-        
+    
         modelPosition.y += elevation;
     
         vec4 viewPosition = viewMatrix * modelPosition;
@@ -141,24 +137,38 @@ const CustomMaterial = shaderMaterial(
     
         vElevation = elevation;
     }
-`,
-  `
+`;
+
+const fragment = `
     uniform vec3 uDepthColor;
     uniform vec3 uSurfaceColor;
     uniform float uColorOffset;
     uniform float uColorMultiplier;
     
     varying float vElevation;
+    varying vec2 vUv;
     
-    void main()
-    {
+
+    
+    void main() {
+        // Define the center as (0.5, 0.5) in normalized device coordinates
+        vec2 center = vec2(0.5, 0.5);
+    
+        // Calculate the distance of the current fragment from the center
+        float distance =  length(vUv - center);
+    
+        // Calculate the mix strength based on elevation, offset, and multiplier
         float mixStrength = (vElevation + uColorOffset) * uColorMultiplier;
+    
+        // Mix between the depth and surface colors based on mixStrength
         vec3 color = mix(uDepthColor, uSurfaceColor, mixStrength);
-        
-        gl_FragColor = vec4(color, 1.0);
+    
+        // Set the final fragment color with an alpha value based on distance
+        gl_FragColor = mix(vec4(0.09019608, 0.09019608, 0.10588235, 1.0), vec4(color, 1.), .5 - distance);
     }
-  `,
-);
+`;
+
+const CustomMaterial = shaderMaterial(customUniforms, vertex, fragment);
 
 extend({ CustomMaterial });
 
@@ -174,21 +184,21 @@ export default function RagingSea(props: any) {
   const material = useRef(null);
   const ref = useRef<Group | null>(null);
 
-    useFrame(({ scene }, delta) => {
+  useFrame(({ scene }, delta) => {
+    // @ts-ignore
+    if (material?.current) {
       // @ts-ignore
-      if (material?.current) {
-        // @ts-ignore
-        material.current.uTime += delta;
-      }
+      material.current.uTime += delta;
+    }
 
-      if (!ref?.current) return;
+    if (!ref?.current) return;
 
-      ref.current.position.copy(
-        scene.getObjectByName("character")?.position ?? new Vector3(0, 0, 0),
-      );
+    ref.current.position.copy(
+      scene.getObjectByName("character")?.position ?? new Vector3(0, 0, 0),
+    );
 
-      ref.current.position.y = -10;
-    });
+    ref.current.position.y = -10;
+  });
 
   const {
     uBigWavesElevation,
@@ -234,7 +244,7 @@ export default function RagingSea(props: any) {
       step: 0.01,
     },
     uSmallIterations: {
-      value: 4.37,
+      value: 1,
       min: 0,
       max: 10,
       step: 0.01,
@@ -269,7 +279,7 @@ export default function RagingSea(props: any) {
           uColorMultiplier={uColorMultiplier}
           uBigWavesFrequency={new Vector2(0.125, 0.125)}
         />
-        <ringGeometry args={[0, 50, 512, 512]} />
+        <ringGeometry args={[0, 100, 512, 512]} />
       </mesh>
     </group>
   );

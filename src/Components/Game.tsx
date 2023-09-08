@@ -50,7 +50,7 @@ export default function Game() {
 
       <Grid visible={false} infiniteGrid followCamera position={[0, 0, 0]} />
 
-      <RagingSea position={[0, -15, 0]} />
+      <RagingSea position={[0, 0, 0]} />
 
       <Lights />
 

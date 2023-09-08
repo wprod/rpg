@@ -1,11 +1,7 @@
-import { useHelper } from "@react-three/drei";
 import { useRef } from "react";
-import * as THREE from "three";
 
 export default function Lights() {
   const directionalLightRef = useRef<any>();
-
-  useHelper(directionalLightRef, THREE.DirectionalLightHelper, 1);
 
   return (
     <>
@@ -22,7 +18,7 @@ export default function Lights() {
         shadow-camera-left={-50}
         ref={directionalLightRef}
       />
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={0.125} />
     </>
   );
 }
