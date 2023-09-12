@@ -12,12 +12,12 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@react-three/fiber": "^8.13.5",
-    "@react-three/drei": "^9.79.3",
+    "@react-three/fiber": "^8.14.1",
+    "@react-three/drei": "^9.83.9",
     "@react-three/rapier": "^1.1.1",
     "leva": "^0.9.35",
     "r3f-perf": "^7.1.2",
-    "three": "^0.154.0",
+    "three": "^0.156.1",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

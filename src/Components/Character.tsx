@@ -481,13 +481,13 @@ export default function Character({ interactionGroups }: IInteractionGroups) {
 
         <group ref={characterContainerRef}>
           <mesh position={[0, 0, slopeRayOriginOffest]} ref={slopeRayOriginRef}>
-            <boxGeometry args={[0.1, 0.1, 0.1]} />
+            <boxGeometry args={[0.001, 0.001, 0.001]} />
           </mesh>
           <primitive
             object={characterObj}
             scale={0.01}
             position={[0, -0.78, 0]}
-          />
+          ></primitive>
         </group>
       </RigidBody>
     </Suspense>
