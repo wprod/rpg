@@ -3,8 +3,11 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
+import { IInteractionGroups } from "../Character.types.ts";
 
-export default function FloatingPlatform() {
+export default function FloatingPlatform({
+  interactionGroups,
+}: IInteractionGroups) {
   // Preset
   const floatingPlateRef = useRef<any>();
   const floatingPlateRef2 = useRef<any>();
@@ -52,7 +55,7 @@ export default function FloatingPlatform() {
       rayLength,
       true,
       undefined,
-      undefined,
+      interactionGroups,
       floatingPlateRef.current,
       floatingPlateRef.current,
     );
@@ -68,7 +71,7 @@ export default function FloatingPlatform() {
       rayLength,
       true,
       undefined,
-      undefined,
+      interactionGroups,
       floatingPlateRef2.current,
       floatingPlateRef2.current,
     );
@@ -106,7 +109,12 @@ export default function FloatingPlatform() {
   return (
     <>
       {/* Platform 1 */}
-      <RigidBody position={[0, 1, 0.2]} mass={1} ref={floatingPlateRef}>
+      <RigidBody
+        position={[0, 1, 0.2]}
+        mass={1}
+        ref={floatingPlateRef}
+        collisionGroups={interactionGroups}
+      >
         <Text
           scale={0.5}
           color="black"
@@ -123,7 +131,12 @@ export default function FloatingPlatform() {
       </RigidBody>
 
       {/* Platform 2 */}
-      <RigidBody position={[0, 1, 7]} mass={1} ref={floatingPlateRef2}>
+      <RigidBody
+        position={[0, 1, 7]}
+        mass={1}
+        ref={floatingPlateRef2}
+        collisionGroups={interactionGroups}
+      >
         <Text
           scale={0.5}
           color="black"

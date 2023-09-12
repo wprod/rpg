@@ -16,6 +16,7 @@ import {
   defaultCharacterSettings,
   defaultRaySettings,
   defaultSlopeSettings,
+  IInteractionGroups,
 } from "./Character.types.ts";
 import { useGameStore } from "../store.ts";
 import { Loader } from "./Loader.tsx";
@@ -37,7 +38,8 @@ const animationPaths: Record<EAnimationNames, string> = {
   strafeLeft: `/${MODEL_PATH}/slow-run.fbx`,
   strafeRight: `/${MODEL_PATH}/slow-run.fbx`,
 };
-export default function Character() {
+
+export default function Character({ interactionGroups }: IInteractionGroups) {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
   const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
@@ -337,7 +339,7 @@ export default function Character() {
       rayLength,
       true,
       undefined,
-      undefined,
+      interactionGroups,
       characterRef.current,
     );
 
@@ -397,7 +399,7 @@ export default function Character() {
       slopeRayLength,
       true,
       undefined,
-      undefined,
+      interactionGroups,
       characterRef.current,
     );
 
@@ -473,6 +475,7 @@ export default function Character() {
         position={[0, 25, 0]}
         friction={-0.5}
         ref={characterRef}
+        collisionGroups={interactionGroups}
       >
         <CapsuleCollider args={[0.35, 0.3]} />
 

@@ -1,24 +1,34 @@
 import { CuboidCollider } from "@react-three/rapier";
 import { Suspense, useState } from "react";
-import { Text } from "@react-three/drei";
+import { Shadow, Sparkles } from "@react-three/drei";
 import { useGameStore } from "../../store.ts";
+
+const Sphere = ({ size = 0.5, amount = 50, color = "white", ...props }) => (
+  <mesh {...props}>
+    <sphereGeometry args={[size, 64, 64]} />
+    <meshPhysicalMaterial
+      roughness={0}
+      color={color}
+      emissive={color}
+      envMapIntensity={0.2}
+    />
+    <Sparkles count={amount} scale={size * 2} size={6} speed={0.4} />
+    <Shadow
+      rotation={[-Math.PI / 2, 0, 0]}
+      scale={size}
+      position={[0, -size, 0]}
+      opacity={0.5}
+    />
+  </mesh>
+);
 
 export const Collision = () => {
   const [intersecting, setIntersection] = useState(false);
 
   return (
     <Suspense fallback={null}>
-      <Text color="black" position={[0, 2, 3]} fontSize={0.5}>
-        Heal
-      </Text>
-      {intersecting && (
-        <Text color="red" position={[0, 1, 3]} fontSize={0.5}>
-          Healed
-        </Text>
-      )}
-
       <CuboidCollider
-        position={[0, 0, 3]}
+        position={[0, 2, 7]}
         args={[1, 1, 0]}
         density={0}
         sensor
@@ -30,7 +40,9 @@ export const Collision = () => {
           setIntersection(true);
         }}
         onIntersectionExit={() => setIntersection(false)}
-      ></CuboidCollider>
+      >
+        <Sphere color={intersecting ? "#bfffb2" : "white"} />
+      </CuboidCollider>
     </Suspense>
   );
 };

@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { RigidBody } from "@react-three/rapier";
+import { IInteractionGroups } from "../Character.types.ts";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -38,7 +39,9 @@ type GLTFResult = GLTF & {
   materials: {};
 };
 
-export default function PortalIsland(props: JSX.IntrinsicElements["group"]) {
+export default function PortalIsland(
+  props: JSX.IntrinsicElements["group"] & IInteractionGroups,
+) {
   const { nodes, scene } = useGLTF("/island/island.glb") as GLTFResult;
   const texture = useLoader(TextureLoader, `/island/backed-4k.jpg`);
   texture.flipY = false;
@@ -121,7 +124,11 @@ export default function PortalIsland(props: JSX.IntrinsicElements["group"]) {
         geometry={nodes.stairs.geometry}
         material={bakedMaterial}
       />
-      <RigidBody colliders={"trimesh"} type={"fixed"}>
+      <RigidBody
+        colliders={"trimesh"}
+        type={"fixed"}
+        collisionGroups={props.interactionGroups}
+      >
         <mesh
           castShadow
           receiveShadow

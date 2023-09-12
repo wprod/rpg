@@ -1,3 +1,7 @@
+export interface IInteractionGroups {
+  interactionGroups: number;
+}
+
 export const defaultCharacterSettings = {
   maxVelLimit: {
     value: 5,

@@ -3,8 +3,11 @@ import { useFrame } from "@react-three/fiber";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
+import { IInteractionGroups } from "../Character.types.ts";
 
-export default function DynamicPlatforms() {
+export default function DynamicPlatforms({
+  interactionGroups,
+}: IInteractionGroups) {
   const sideMovePlatformRef = useRef<any>();
   const rotatePlatformRef = useRef<any>();
   const rotationDrumRef = useRef<any>();
@@ -39,7 +42,11 @@ export default function DynamicPlatforms() {
   return (
     <>
       {/* Moving platform */}
-      <RigidBody type="kinematicPosition" ref={sideMovePlatformRef}>
+      <RigidBody
+        type="kinematicPosition"
+        ref={sideMovePlatformRef}
+        collisionGroups={interactionGroups}
+      >
         <Text
           scale={0.5}
           color="black"
@@ -60,6 +67,7 @@ export default function DynamicPlatforms() {
         type="kinematicPosition"
         position={[0, 1, -7]}
         ref={rotatePlatformRef}
+        collisionGroups={interactionGroups}
       >
         <Text
           scale={0.5}
@@ -92,6 +100,7 @@ export default function DynamicPlatforms() {
         type="kinematicPosition"
         position={[0, 0, -15]}
         ref={rotationDrumRef}
+        collisionGroups={interactionGroups}
       >
         <group rotation={[0, 0, Math.PI / 2]}>
           <CylinderCollider args={[5, 1]} />

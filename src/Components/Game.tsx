@@ -1,6 +1,6 @@
 import { Grid, KeyboardControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import { Physics } from "@react-three/rapier";
+import { interactionGroups, Physics } from "@react-three/rapier";
 import Character from "./Character.jsx";
 import Floor from "./Prefab/Floor.tsx";
 import Lights from "./Lights.jsx";
@@ -56,20 +56,24 @@ export default function Game() {
 
       <Physics debug={physics} paused={!loaded} timeStep="vary">
         <KeyboardControls map={keyboardMap}>
-          <Character />
+          <Character interactionGroups={interactionGroups(10, 1)} />
         </KeyboardControls>
 
-        <PortalIsland rotation-y={-Math.PI} position={[0, 0.75, 20]} />
+        <PortalIsland
+          rotation-y={-Math.PI}
+          position={[0, 0.75, 20]}
+          interactionGroups={interactionGroups(1, [0, 10])}
+        />
 
         <Collision />
 
-        <RigidObjects />
+        <RigidObjects interactionGroups={interactionGroups(1, [0, 10])} />
 
-        <FloatingPlatform />
+        <FloatingPlatform interactionGroups={interactionGroups(1, [0, 10])} />
 
-        <DynamicPlatforms />
+        <DynamicPlatforms interactionGroups={interactionGroups(1, [0, 10])} />
 
-        <Floor />
+        <Floor interactionGroups={interactionGroups(0, 1)} />
       </Physics>
     </>
   );

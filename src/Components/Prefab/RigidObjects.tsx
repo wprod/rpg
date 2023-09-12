@@ -1,12 +1,15 @@
 import { Text } from "@react-three/drei";
 import { BallCollider, CylinderCollider, RigidBody } from "@react-three/rapier";
 import { Suspense } from "react";
+import { IInteractionGroups } from "../Character.types.ts";
 
-export default function RigidObjects() {
+export default function RigidObjects({
+  interactionGroups,
+}: IInteractionGroups) {
   return (
     <Suspense fallback={<></>}>
       {/* Rigid body boxes */}
-      <RigidBody position={[15, 10, 0]}>
+      <RigidBody position={[15, 10, 0]} collisionGroups={interactionGroups}>
         <Text
           scale={0.5}
           color="black"
@@ -23,7 +26,7 @@ export default function RigidObjects() {
         </mesh>
       </RigidBody>
 
-      <RigidBody position={[15, 10, -2]}>
+      <RigidBody position={[15, 10, -2]} collisionGroups={interactionGroups}>
         <Text
           scale={0.5}
           color="black"
@@ -40,7 +43,7 @@ export default function RigidObjects() {
         </mesh>
       </RigidBody>
 
-      <RigidBody position={[15, 10, -5]}>
+      <RigidBody position={[15, 10, -5]} collisionGroups={interactionGroups}>
         <Text
           scale={0.5}
           color="black"
@@ -58,7 +61,11 @@ export default function RigidObjects() {
       </RigidBody>
 
       {/* Fun toy */}
-      <RigidBody colliders={false} position={[15, 5, -10]}>
+      <RigidBody
+        colliders={false}
+        position={[15, 5, -10]}
+        collisionGroups={interactionGroups}
+      >
         <Text
           scale={0.5}
           color="black"
