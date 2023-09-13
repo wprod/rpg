@@ -32,12 +32,16 @@ export const Collision = () => {
         args={[1, 1, 0]}
         density={0}
         sensor
-        onIntersectionEnter={() => {
-          useGameStore.setState(() => ({
-            health: 100,
-          }));
+        onIntersectionEnter={(e) => {
+          if (e?.rigidBodyObject?.name === "character") {
+            useGameStore.setState(() => ({
+              health: 100,
+            }));
 
-          setIntersection(true);
+            console.log("healed");
+
+            setIntersection(true);
+          }
         }}
         onIntersectionExit={() => setIntersection(false)}
       >
