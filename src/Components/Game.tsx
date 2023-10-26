@@ -1,7 +1,7 @@
 import { Grid, KeyboardControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
 import { interactionGroups, Physics } from "@react-three/rapier";
-import Character from "./Character.jsx";
+import Character from "./Character/Character.tsx";
 import Floor from "./Prefab/Floor.tsx";
 import Lights from "./Lights.jsx";
 import RigidObjects from "./Prefab/RigidObjects.tsx";

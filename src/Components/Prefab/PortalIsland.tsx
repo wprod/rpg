@@ -5,7 +5,7 @@ import { useEffect, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { RigidBody } from "@react-three/rapier";
-import { IInteractionGroups } from "../Character.types.ts";
+import { IInteractionGroups } from "../Character/Character.types.ts";
 
 type GLTFResult = GLTF & {
   nodes: {

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { IInteractionGroups } from "../Character.types.ts";
+import { IInteractionGroups } from "../Character/Character.types.ts";
 
 export default function FloatingPlatform({
   interactionGroups,

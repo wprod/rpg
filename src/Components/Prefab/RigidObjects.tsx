@@ -1,7 +1,7 @@
 import { Text } from "@react-three/drei";
 import { BallCollider, CylinderCollider, RigidBody } from "@react-three/rapier";
 import { Suspense } from "react";
-import { IInteractionGroups } from "../Character.types.ts";
+import { IInteractionGroups } from "../Character/Character.types.ts";
 
 export default function RigidObjects({
   interactionGroups,

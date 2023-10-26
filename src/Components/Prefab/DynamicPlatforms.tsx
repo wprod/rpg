@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
-import { IInteractionGroups } from "../Character.types.ts";
+import { IInteractionGroups } from "../Character/Character.types.ts";
 
 export default function DynamicPlatforms({
   interactionGroups,

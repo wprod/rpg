@@ -1,5 +1,5 @@
 import { RigidBody } from "@react-three/rapier";
-import { IInteractionGroups } from "../Character.types.ts";
+import { IInteractionGroups } from "../Character/Character.types.ts";
 
 export default function Floor({ interactionGroups }: IInteractionGroups) {
   return (
