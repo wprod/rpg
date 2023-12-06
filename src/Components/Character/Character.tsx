@@ -2,7 +2,7 @@ import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { Group, MeshToonMaterial, Vector3 } from "three";
+import { Group, Vector3 } from "three";
 import { useControls } from "leva";
 import useFollowCam from "../hooks/useFollowCam.ts";
 import useThirdPersonAnimations, {
@@ -43,22 +43,6 @@ export default function Character({ interactionGroups }: IInteractionGroups) {
   const characterRef = useRef<any>();
   const characterContainerRef = useRef<Group | null>(null);
   const characterObj = useLoader(FBXLoader, `/${MODEL_PATH}/t-pose.fbx`);
-
-  useEffect(() => {
-    if (characterObj?.children[1].material) {
-      const map = characterObj.children[1].material.map;
-
-      const material = new MeshToonMaterial();
-
-      console.log(map);
-      if (map) {
-        material.map = map; // Set the texture as the map for the toon material
-        material.needsUpdate = true; // Ensure the material is updated
-      }
-
-      characterObj.children[1].material = material;
-    }
-  }, [characterObj]);
 
   // Wip state
   const pv = useGameStore.getState().health;
