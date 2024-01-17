@@ -4,14 +4,14 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Group, Vector3 } from "three";
 import { useControls } from "leva";
-import useFollowCam from "../hooks/useFollowCam.ts";
+import useFollowCam from "./hooks/useFollowCam.ts";
 import useThirdPersonAnimations, {
   EAnimationNames,
-} from "../hooks/useThirdPersonAnimations.ts";
+} from "./hooks/useThirdPersonAnimations.ts";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
-import useInputEventManager from "../hooks/useInputEventManager.ts";
-import { useKeyboardInput } from "../hooks/useKeyboardMouseMovement.ts";
-import { getAnimationFromUserInputs } from "../hooks/utils.ts";
+import useInputEventManager from "./hooks/useInputEventManager.ts";
+import { useKeyboardInput } from "./hooks/useKeyboardMouseMovement.ts";
+import { getAnimationFromUserInputs } from "./hooks/utils.ts";
 import {
   defaultCharacterSettings,
   defaultRaySettings,
