@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Group, MeshStandardMaterial, Object3DEventMap, Scene } from "three";
+import { Group, MeshStandardMaterial, Object3D, Object3DEventMap } from "three";
 
 import { LinearSpline } from "./Utils/Spline.ts";
 import { TerrainChunk } from "./TerrainChunck.ts";
@@ -205,14 +205,15 @@ export class TerrainChunkManager {
       wireframe: true,
       wireframeLinewidth: 1,
       color: 0xffffff,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
       vertexColors: true,
     });
+
     this._builder = new TerrainChunkRebuilder(params);
 
     this._InitNoise();
     this._InitBiomes();
-    this._InitTerrain(params.scene);
+    this._InitTerrain(params.earth);
   }
 
   _InitNoise() {
@@ -244,9 +245,9 @@ export class TerrainChunkManager {
     this._biomes = new Noise(params);
   }
 
-  _InitTerrain(scene: Scene) {
+  _InitTerrain(earth: Object3D) {
     this._groups = [...new Array(6)].map((_) => new THREE.Group());
-    scene.add(...this._groups);
+    earth.add(...this._groups);
 
     for (let k in this._chunks) {
       this._chunks[k].chunk._plane.material.wireframe =

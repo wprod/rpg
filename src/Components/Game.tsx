@@ -1,6 +1,6 @@
 import { Grid, KeyboardControls } from "@react-three/drei";
 import { Perf } from "r3f-perf";
-import { interactionGroups, Physics } from "@react-three/rapier";
+import { interactionGroups, Physics, RigidBody } from "@react-three/rapier";
 import Character from "./Character/Character.tsx";
 import Floor from "./Prefab/Floor.tsx";
 import Lights from "./Lights.jsx";
@@ -8,7 +8,7 @@ import RigidObjects from "./Prefab/RigidObjects.tsx";
 import FloatingPlatform from "./Prefab/FloatingPlatform.tsx";
 import DynamicPlatforms from "./Prefab/DynamicPlatforms.tsx";
 import { useControls } from "leva";
-import { DefaultLoadingManager } from "three";
+import { DefaultLoadingManager, Vector3 } from "three";
 import { useEffect, useRef, useState } from "react";
 import { Vector3Tuple } from "@react-three/rapier/dist/declarations/src/types";
 import { TerrainChunkManager } from "./Terrain/Terrain.ts";
@@ -48,37 +48,41 @@ export default function Game() {
   const gravityDown: Vector3Tuple = [0, -10, 0];
 
   const { camera, scene } = useThree();
+  const earth = scene.getObjectByName("earth");
+  const target = new Vector3();
 
-  const terrainChunkManager = useRef(
-    new TerrainChunkManager({
-      camera: camera,
-      scene: scene,
-    }),
-  );
-
-  console.log(camera);
+  const terrainChunkManager = useRef<TerrainChunkManager | null>(null);
 
   useFrame(({ scene }) => {
     terrainChunkManager?.current?.Update(
-      scene.getObjectByName("character")?.position,
+      scene.getObjectByName("character")?.getWorldPosition(target),
     );
   });
+
+  useEffect(() => {
+    if (terrainChunkManager?.current !== null) return;
+
+    terrainChunkManager.current = new TerrainChunkManager({
+      camera: camera,
+      earth: earth,
+    });
+  }, [earth]);
 
   return (
     <>
       <Perf position="top-left" />
 
       {/*
-      <fog attach="fog" args={["#17171b", 30, 40]} />
-*/}
+        <fog attach="fog" args={["#17171b", 30, 40]} />
+      */}
 
       <color attach="background" args={["#17171b"]} />
 
       <Grid visible={false} infiniteGrid followCamera position={[0, 0, 0]} />
 
       {/*
-      <RagingSea position={[0, 0, 0]} />
-*/}
+        <RagingSea position={[0, 0, 0]} />
+      */}
 
       <Lights />
 
@@ -88,17 +92,23 @@ export default function Game() {
         timeStep="vary"
         gravity={dir ? gravityUp : gravityDown}
       >
-        <KeyboardControls map={keyboardMap}>
-          <Character interactionGroups={interactionGroups(10, [1, 0])} />
-        </KeyboardControls>
+        <RigidBody collisionGroups={interactionGroups(0, [1, 10])}>
+          <group name={"earth"}></group>
+        </RigidBody>
 
-        <RigidObjects interactionGroups={interactionGroups(1, [0, 10])} />
+        <group position={[0, 4050, 0]}>
+          <KeyboardControls map={keyboardMap}>
+            <Character interactionGroups={interactionGroups(10, [1, 0])} />
+          </KeyboardControls>
 
-        <FloatingPlatform interactionGroups={interactionGroups(1, [0, 10])} />
+          <RigidObjects interactionGroups={interactionGroups(1, [0, 10])} />
 
-        <DynamicPlatforms interactionGroups={interactionGroups(1, [0, 10])} />
+          <FloatingPlatform interactionGroups={interactionGroups(1, [0, 10])} />
 
-        <Floor interactionGroups={interactionGroups(0, [1, 10])} />
+          <DynamicPlatforms interactionGroups={interactionGroups(1, [0, 10])} />
+
+          <Floor interactionGroups={interactionGroups(0, [1, 10])} />
+        </group>
       </Physics>
     </>
   );

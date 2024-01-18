@@ -5,8 +5,8 @@ export default function Floor({ interactionGroups }: IInteractionGroups) {
   return (
     <RigidBody type="fixed" collisionGroups={interactionGroups}>
       <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[1000, 0.5, 1000]} />
-        <meshPhongMaterial color="#ff0000" opacity={0} transparent />
+        <boxGeometry args={[30, 0.5, 30]} />
+        <meshPhongMaterial color="#ff0000" opacity={0} />
       </mesh>
     </RigidBody>
   );
