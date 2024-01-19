@@ -20,8 +20,15 @@ DefaultLoadingManager.onLoad = function () {
 
 export default function Game() {
   const { physics } = useControls("World Settings", {
-    physics: false,
+    physics: true,
   });
+
+  const { coliders } = useControls(
+    "World coliders (toggle on off after chunks genration)",
+    {
+      coliders: true,
+    },
+  );
 
   const { dir } = useControls("Gravity dir", {
     dir: false,
@@ -64,7 +71,7 @@ export default function Game() {
 
     terrainChunkManager.current = new TerrainChunkManager({
       camera: camera,
-      earth: earth,
+      earth: scene.getObjectByName("earth"),
     });
   }, [earth]);
 
@@ -92,11 +99,16 @@ export default function Game() {
         timeStep="vary"
         gravity={dir ? gravityUp : gravityDown}
       >
-        <RigidBody collisionGroups={interactionGroups(0, [1, 10])}>
+        <RigidBody
+          type="fixed"
+          colliders={coliders ? "trimesh" : false}
+          includeInvisible={true}
+          collisionGroups={interactionGroups(0, [1, 10])}
+        >
           <group name={"earth"}></group>
         </RigidBody>
 
-        <group position={[0, 4050, 0]}>
+        <group position={[0, 4020, 0]}>
           <KeyboardControls map={keyboardMap}>
             <Character interactionGroups={interactionGroups(10, [1, 0])} />
           </KeyboardControls>

@@ -12,8 +12,8 @@ const _SHALLOW_OCEAN = new THREE.Color(0x8080ff);
 const _SNOW = new THREE.Color(0xffffff);
 const _FOREST_BOREAL = new THREE.Color(0x29c100);
 
-const _MIN_CELL_SIZE = 250;
-const _MIN_CELL_RESOLUTION = 64;
+const _MIN_CELL_SIZE = 4;
+const _MIN_CELL_RESOLUTION = 2;
 const _PLANET_RADIUS = 4000;
 
 class HeightGenerator {
